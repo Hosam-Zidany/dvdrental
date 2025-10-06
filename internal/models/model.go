@@ -2,6 +2,16 @@ package models
 
 import "time"
 
+type User struct {
+	ID        uint      `gorm:"primaryKey;column:id"`
+	FirstName string    `gorm:"column:first_name;not null"`
+	LastName  string    `gorm:"column:last_name;not null"`
+	Email     string    `gorm:"column:email;unique;not null"`
+	Password  string    `gorm:"column:password;not null"`
+	CreatedAt time.Time `gorm:"column:created_at"`
+	UpdatedAt time.Time `gorm:"column:updated_at"`
+}
+
 type Film struct {
 	FilmID          int     `gorm:"column:film_id;primaryKey"`
 	Title           string  `gorm:"column:title"`

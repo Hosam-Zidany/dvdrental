@@ -3,7 +3,9 @@ package routers
 import (
 	"net/http"
 
+	"github.com/Hosam-Zidany/dvdrental/internal/auth"
 	"github.com/Hosam-Zidany/dvdrental/internal/handlers"
+	"github.com/Hosam-Zidany/dvdrental/internal/middlewares"
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,6 +16,12 @@ func SetupRouter() *gin.Engine {
 	})
 	api := r.Group("/api")
 	{
+		authGroup := api.Group("/auth")
+		{
+			authGroup.POST("/register", auth.Register)
+			authGroup.POST("/login", auth.Login)
+		}
+
 		api.GET("/films", handlers.GetFilms)
 		api.GET("/films/:id", handlers.GetFilmByID)
 		api.GET("/categories", handlers.GetCategories)
@@ -21,6 +29,15 @@ func SetupRouter() *gin.Engine {
 		api.GET("/actors", handlers.GetActors)
 		api.GET("/actors/:id", handlers.GetActorById)
 		api.GET("/actors/:id/films", handlers.GetFilmsByActor)
+
+		protected := api.Group("/")
+		protected.Use(middlewares.AuthMiddleware())
+		{
+			// Example protected endpoints (to add later)
+			protected.GET("/profile", auth.GetProfile)
+			// protected.POST("/rentals", handlers.CreateRental)
+			// protected.GET("/payments", handlers.GetUserPayments)
+		}
 	}
 	return r
 }
