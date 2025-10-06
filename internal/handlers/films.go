@@ -57,19 +57,23 @@ func GetFilmByID(c *gin.Context) {
 	database.DB.First(&language, "language_id = ?", film.LanguageID)
 
 	var categories []models.Category
-	database.DB.Raw(`
+	result2 := database.DB.Raw(`
 		SELECT c.category_id,c.name
 		FROM category c
 		JOIN film_category fc ON c.category_id = fc.category_id
 		WHERE fc.film_id = ?`, id).Scan(&categories)
 
 	var actors []models.Actor
-	database.DB.Raw(`
+	result3 := database.DB.Raw(`
 	SELECT a.actor_id,a.first_name,a.last_name
 	FROM actor a
 	JOIN film_actor fa ON a.actor_id = fa.actor_id
 	WHERE fa.film_id = ?`, id).Scan(&actors)
 
+	if result2.Error != nil || result3.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
+		return
+	}
 	c.JSON(http.StatusOK, gin.H{
 		"film":       film,
 		"language":   language,

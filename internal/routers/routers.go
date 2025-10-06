@@ -16,6 +16,8 @@ func SetupRouter() *gin.Engine {
 	{
 		api.GET("/films", handlers.GetFilms)
 		api.GET("/films/:id", handlers.GetFilmByID)
+		api.GET("/categories", handlers.GetCategories)
+		api.GET("/categories/:id/films", handlers.GetFilmsByCategory)
 	}
 	return r
 }
