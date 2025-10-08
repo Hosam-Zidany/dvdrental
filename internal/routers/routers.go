@@ -33,7 +33,6 @@ func SetupRouter() *gin.Engine {
 		protected := api.Group("/")
 		protected.Use(middlewares.AuthMiddleware())
 		{
-			// Example protected endpoints (to add later)
 			protected.GET("/profile", auth.GetProfile)
 			// protected.POST("/rentals", handlers.CreateRental)
 			// protected.GET("/payments", handlers.GetUserPayments)

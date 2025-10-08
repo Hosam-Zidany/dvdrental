@@ -3,13 +3,14 @@ package models
 import "time"
 
 type User struct {
-	ID        uint      `gorm:"primaryKey;column:id"`
-	FirstName string    `gorm:"column:first_name;not null"`
-	LastName  string    `gorm:"column:last_name;not null"`
-	Email     string    `gorm:"column:email;unique;not null"`
-	Password  string    `gorm:"column:password;not null"`
-	CreatedAt time.Time `gorm:"column:created_at"`
-	UpdatedAt time.Time `gorm:"column:updated_at"`
+	ID         uint      `gorm:"primaryKey;column:id"`
+	FirstName  string    `gorm:"column:first_name;not null"`
+	LastName   string    `gorm:"column:last_name;not null"`
+	Email      string    `gorm:"column:email;unique;not null"`
+	Password   string    `gorm:"column:password;not null"`
+	CustomerID *uint     `gorm:"column:customer_id"`
+	CreatedAt  time.Time `gorm:"column:created_at"`
+	UpdatedAt  time.Time `gorm:"column:updated_at"`
 }
 
 type Film struct {

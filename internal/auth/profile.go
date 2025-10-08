@@ -16,10 +16,12 @@ func GetProfile(c *gin.Context) {
 	}
 	uid := val.(uint)
 	var user models.User
-	if err := database.DB.First(&user, uid).Error; err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "user not found"})
-		return
-	}
+if err := database.DB.First(&user, "id = ?", uid).Error; err != nil {
+	c.JSON(http.StatusNotFound, gin.H{"error": "user not found"})
+	return
+}
+
+
 	c.JSON(http.StatusOK, gin.H{
 		"id":         user.ID,
 		"first_name": user.FirstName,
